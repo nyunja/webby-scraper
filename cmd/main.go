@@ -1,23 +1,35 @@
 package main
 
 import (
-	"fmt"
-	"io/ioutil"
+	"log"
+	"my-web-scraper/cmd/store"
 	"net/http"
+
+	"github.com/PuerkitoBio/goquery"
 )
 
 func main() {
 	response, err := http.Get("https://jiji.co.ke/")
 
 	if err != nil {
-		fmt.Print("Error extracting response: ", err)
+		log.Fatal(err)
 		return
 	}
 	defer response.Body.Close()
 
-	body, err := ioutil.ReadAll(response.Body)
+	var records []string
+
+	records = append(records, "Title")
+
+	doc, err := goquery.NewDocumentFromReader(response.Body)
 	if err != nil {
-		fmt.Println("Error reading body: ", err)
+		log.Fatal(err)
 	}
-	fmt.Println(string(body))
+
+	doc.Find("div").Each(func(i int, s *goquery.Selection) {
+		title := s.Text()
+		// fmt.Printf("Title %d: %s\n", i+1, title)
+		records = append(records, title)
+	})
+	store.SaveToJSON(records)
 }
