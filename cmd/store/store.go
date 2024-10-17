@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func SaveToJSON(records []string) {
+func SaveToJSON(records []CarPageDetails) {
 	file, err := os.Create("scraped_data.json")
 	if err != nil {
 		log.Fatal(err)
