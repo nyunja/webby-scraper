@@ -42,8 +42,8 @@ func main() {
 			key := k.Find("div.b-advert-attribute__key").Text()
 			value := k.Find("div.b-advert-attribute__value").Text()
 			// Clean keys and values
-			value = hpRegex.ReplaceAllString(value, "${1} hp")
-			value = ccRegex.ReplaceAllString(value, "${1} cc")
+			value = hpRegex.ReplaceAllString(value, "${1}hp")
+			value = ccRegex.ReplaceAllString(value, "${1}cc")
 			keys := strings.Split(key, "\n")
 			values := strings.Split(value, "\n")
 			// d := store.Detail{Key: key, Value: value}
